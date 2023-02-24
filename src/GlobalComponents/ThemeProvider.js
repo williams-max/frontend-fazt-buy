@@ -8,7 +8,7 @@ const ThemeProvider = (props) => {
     useEffect(()=>{
         localStorage.setItem('theme', JSON.stringify(theme));
     },[theme]);
-
+//hola
     const setThemeMode = mode => setTheme(mode);
     return (
         <ThemeContext.Provider value={{ theme, setThemeMode}}>
