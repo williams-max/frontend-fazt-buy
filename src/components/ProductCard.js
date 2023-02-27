@@ -44,7 +44,7 @@ const ProductCard = (props) => {
               component="img"
               /*height="140"*/
 
-              image={'http://localhost:4000/'+image}
+              image={'https://backend-fast-buy-production.up.railway.app/'+image}
               alt="image"
             />
           </div>

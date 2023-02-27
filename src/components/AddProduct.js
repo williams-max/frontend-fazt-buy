@@ -39,8 +39,9 @@ const AddProduct = () => {
 
     const formdata = new FormData()
     formdata.append('image', file)
-
-    fetch('http://localhost:4000/api/v1/products/v2/addimg', {
+//'http://localhost:4000/api/v1/products/v2/addimg'
+   // https://backend-fast-buy-production.up.railway.app/
+    fetch('https://backend-fast-buy-production.up.railway.app/api/v1/products/v2/addimg', {
       method: 'POST',
       body: formdata
     })

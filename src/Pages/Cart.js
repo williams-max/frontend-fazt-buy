@@ -22,7 +22,8 @@ const style = {
 };
 
 const Cart = () => {
-  const urlDev = "http://localhost:4000/"; //imagenes
+ // const urlDev = "http://localhost:4000/"; //imagenes
+  const urlDev = "https://backend-fast-buy-production.up.railway.app/"
   const [theme] = useThemeHook();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -36,6 +37,8 @@ const Cart = () => {
     removeItem,
     emptyCart,
   } = useCart();
+
+  console.log("items ",)
   return (
     <Container className="">
       <br />

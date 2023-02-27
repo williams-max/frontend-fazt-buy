@@ -18,7 +18,7 @@ const Home = () => {
   const [listDataHogar, setlistDataHogar] = useState([]);
 
   async function getResponse() {
-    const res = await fetch("http://localhost:4000/api/v1/products").then(
+    const res = await fetch("https://backend-fast-buy-production.up.railway.app/api/v1/products").then(
       (res) => res.json()
     );
 
