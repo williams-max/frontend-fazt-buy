@@ -22,7 +22,7 @@ const Home = () => {
       (res) => res.json()
     );
 
-    console.log("res ", res);
+    console.log("res ", res);//test
     setProductData(await res);
   }
 
