@@ -16,10 +16,11 @@ import { AiOutlineUser } from "react-icons/ai";
 import { VscKey } from "react-icons/vsc";
 import { Box } from "@mui/system";
 import axios from "axios";
+import { urlProduct,baseUrl,urlUser } from "../Strings/apis";
 
 const SignIn = () => {
 
-  const urlDev='http://localhost:4000'
+ 
   const [loading, setLoading] = useState(false);
   const [theme] = useThemeHook();
   const [listDataEmployes,setListaDataEmployes]=useState([])
@@ -31,7 +32,7 @@ const SignIn = () => {
   },[]);
 const loadEmployes = async ()=> {
   try {
-   const res=await axios.get(`${urlDev}/api/v1/employees`)
+   const res=await axios.get(urlUser)
    console.log("res " ,res.data)
    setListaDataEmployes(res.data)
 

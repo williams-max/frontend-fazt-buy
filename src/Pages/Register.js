@@ -12,13 +12,14 @@ import { useThemeHook } from "../GlobalComponents/ThemeProvider";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/high-res.css";
 import axios from "axios";
+import { urlProduct,baseUrl,urlUser } from "../Strings/apis";
+
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
   const [number, setNumber] = useState(null);
   const [theme] = useThemeHook();
 
-  const urlDev = "http://localhost:4000";
 
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
@@ -35,7 +36,7 @@ const Register = () => {
       console.log(username, password, firstname, lastname, email, number);
 
       try {
-        const res = await axios.post(`${urlDev}/api/v1/employees`, {
+        const res = await axios.post(urlUser, {
           first_name: firstname,
           last_name: lastname,
           email: email,

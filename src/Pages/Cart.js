@@ -3,6 +3,7 @@ import { Button, Container, Col, Row, Table } from "react-bootstrap";
 import { useCart } from "react-use-cart";
 import { useThemeHook } from "../GlobalComponents/ThemeProvider";
 import { BsCartCheck, BsCartX } from "react-icons/bs";
+import { urlProduct,baseUrl,urlUser } from "../Strings/apis";
 
 import Box from "@mui/material/Box";
 //import Button from '@mui/material/Button';
@@ -22,8 +23,7 @@ const style = {
 };
 
 const Cart = () => {
- // const urlDev = "http://localhost:4000/"; //imagenes
-  const urlDev = "https://backend-fast-buy-production.up.railway.app/"
+
   const [theme] = useThemeHook();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -78,7 +78,7 @@ const Cart = () => {
                     >
                       <div style={{ padding: ".5rem" }}>
                         <img
-                          src={`${urlDev}${item.image}`}
+                          src={`${baseUrl}/${item.image}`}
                           style={{ width: "4rem" }}
                           alt={item.title}
                         />

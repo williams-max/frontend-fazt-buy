@@ -50,6 +50,12 @@ const Header = () => {
                className={`nav-link ${darkMode? 'text-dark-primary' : 'text-light-primary'}`}>
                 Sign in
               </Link>
+
+              <Link
+               to="/administration" 
+               className={`nav-link ${darkMode? 'text-dark-primary' : 'text-light-primary'}`}>
+                Administration
+              </Link>
             
               <Link
                 to="/cart"

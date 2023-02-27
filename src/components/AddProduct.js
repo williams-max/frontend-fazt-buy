@@ -1,70 +1,266 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 //import { Button, Card } from "react-bootstrap";
 import {
-  Button,
+  //  Button,
   Card,
   CardContent,
   CardMedia,
   Typography,
 } from "@mui/material";
-import { useThemeHook } from "../GlobalComponents/ThemeProvider";
+
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  Spinner,
+  InputGroup,
+} from "react-bootstrap";
+import axios from "axios";
+
 import { useCart } from "react-use-cart";
 import { BsCartPlus } from "react-icons/bs";
 //import { Link } from "@reach/router";
 
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 const AddProduct = () => {
- // let { image, price, title, id } = props.data;
+  const navigate=useNavigate()
+  // let { image, price, title, id } = props.data;
 
-  const [theme] = useThemeHook();
   const { addItem } = useCart();
 
   const addToCart = () => {
     //addItem(props.data);
   };
 
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState(null);
+  const [checkBelleza, setCheckBelleza] = useState(false);
+  const [checkHogar, setCheckHogar] = useState(false);
 
-  const selectedHandler = e => {
+  const urlDev = "http://localhost:4000";
+  const selectedHandler = (e) => {
+    console.log("dddd ", e.target.files[0]);
+    setFile(e.target.files[0]);
+  };
 
-    console.log("dddd ",e.target.files[0])
-    setFile(e.target.files[0])
-  }
-
-  const sendHandler = () => {
-    if(!file){
-      alert('you must upload file')
-      return
+  const sendHandler = async () => {
+    if (!file) {
+      alert("you must upload file");
+      return;
     }
 
-    const formdata = new FormData()
-    formdata.append('image', file)
-//'http://localhost:4000/api/v1/products/v2/addimg'
-   // https://backend-fast-buy-production.up.railway.app/
-    fetch('https://backend-fast-buy-production.up.railway.app/api/v1/products/v2/addimg', {
-      method: 'POST',
-      body: formdata
-    })
-    .then(res => res.text())
-    .then(res => console.log(res))
-    .catch(err => {
-      console.error(err)
-    })
+    const formdata = new FormData();
+    formdata.append("image", file);
+    formdata.append("name", "tony");
 
-    document.getElementById('fileinput').value = null
+    // https://backend-fast-buy-production.up.railway.app/
+    try {
+      const res = await axios.post(
+        `${urlDev}/api/v1/products/v2/addimg`,
+        formdata,
+        
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    } catch (error) {}
+    /*
+    fetch(
+    `${urlDev}/api/v1/products/v2/addimg`,
+      {
+        method: "POST",
+        body: formdata,
+      }
+    )
+      .then((res) => res.text())
+      .then((res) => console.log(res))
+      .catch((err) => {
+        console.error(err);
+      });*/
 
-    setFile(null)
-  }
+    document.getElementById("fileinput").value = null;
+
+    setFile(null);
+  };
+
+  const [loading, setLoading] = useState(false);
+  const [number, setNumber] = useState(null);
+
+  const handleSubmit = async (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+
+    if(!checkBelleza && !checkHogar){
+      alert("seleccione una categoria")
+      return;
+    }
+
+    var category=""
+    if(checkBelleza && !checkHogar){
+      category="belleza"
+    }
+    if(!checkBelleza && checkHogar){
+      category="hogar"
+    }
+    
+    const title = form.title.value;
+    const price = form.price.value;
+
+    if (title && price) {
+     // setLoading(true);
+      console.log("call api here");
+      console.log(title, price);
+
+
+      if (!file) {
+        alert("you must upload file");
+        return;
+      }
+  
+      const formdata = new FormData();
+      formdata.append("image", file);
+      formdata.append("price",price);
+      formdata.append("title",title);
+      formdata.append("category",category);
+      
+      try {
+        const res = await axios.post(
+          `${urlDev}/api/v1/products/v2/addimg`,
+          formdata,
+          
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        navigate(-1)
+      } catch (error) {
+        console.log(error.response); // this is the main part. Use the response property from the error object
+
+        return error.response;
+      }
+    
+  
+      document.getElementById("fileinput").value = null;
+  
+      setFile(null);
+
+    }
+  };
+
+  const handleCheckBelleza = (e) => {
+    console.log(e.target.checked);
+    setCheckBelleza(e.target.checked);
+    if (e.target.value) {
+      setCheckHogar(false);
+    }
+  };
+  const handleCheckHogar = (e) => {
+    console.log(e.target.checked);
+    setCheckHogar(e.target.checked);
+    if (e.target.value) {
+      setCheckBelleza(false);
+    }
+  };
+
   return (
     <>
-     <br/><br/><br/>
-     <div className="col-10">
-              <input id="fileinput" onChange={selectedHandler} className="form-control" type="file"/>
+      <br />
+      <br />
+      <br />
+
+     {/* <div className="col-2">
+        <Button
+          onClick={sendHandler}
+          type="Button"
+          className="btn btn-primary col-12"
+        >
+          Upload
+        </Button>
+      </div>*/}
+
+      <Row className="justify-content-center">
+        <Col xs={11} sm={10} md={8} lg={4}>
+          <h4>Add Prduct</h4>
+          <Form onSubmit={handleSubmit}>
+            <Row>
+              <Form.Group className="mb-3 col-lg-6">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  name="title"
+                  type="text"
+                  placeholder="Title"
+                  required
+                />
+              </Form.Group>
+            </Row>
+            <Form.Group className="mb-3">
+              <Form.Label>Price</Form.Label>
+              <Form.Control
+                name="price"
+                type="text"
+                placeholder="Price"
+                required
+              />
+            </Form.Group>
+            <div style={{ width: "100%" }}>
+              <input
+                id="fileinput"
+                onChange={selectedHandler}
+                className="form-control"
+                type="file"
+              />
             </div>
-            <div className="col-2">
-              <Button onClick={sendHandler} type="Button" className="btn btn-primary col-12">Upload</Button>
-            </div>
-    <Button>submit data</Button>
+            <Form.Group className="mb-3">
+              <Form.Label>Category</Form.Label>
+
+              <div>
+                <input
+                  type="checkbox"
+                  checked={checkBelleza}
+                  onChange={(e) => handleCheckBelleza(e)}
+                />
+                <Form.Label>belleza</Form.Label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  checked={checkHogar}
+                  onChange={(e) => handleCheckHogar(e)}
+                />
+                <Form.Label>hogar</Form.Label>
+              </div>
+            </Form.Group>
+            <Button
+              style={{ border: 0, backgroundColor: "red", width: "150px" }}
+              onClick={()=> navigate(-1)}
+            >
+              Back
+            </Button>
+            &nbsp;
+            <Button type="submit" disabled={loading} style={{ border: 0 }}>
+              {loading ? (
+                <>
+                  <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  &nbsp;Loading...
+                </>
+              ) : (
+                "Add Product"
+              )}
+            </Button>
+          </Form>
+        </Col>
+      </Row>
     </>
   );
 };

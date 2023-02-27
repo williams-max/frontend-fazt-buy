@@ -5,6 +5,8 @@ import { BiSearch } from "react-icons/bi";
 import SearchFilter from "react-filter-search";
 import ProductCard from "../components/ProductCard";
 import { Box, Grid, Typography } from "@mui/material";
+import { urlProduct } from "../Strings/apis";
+import axios from "axios";
 
 const Home = () => {
   const [theme] = useThemeHook();
@@ -18,7 +20,8 @@ const Home = () => {
   const [listDataHogar, setlistDataHogar] = useState([]);
 
   async function getResponse() {
-    const res = await fetch("https://backend-fast-buy-production.up.railway.app/api/v1/products").then(
+
+    const res = await fetch(urlProduct).then(
       (res) => res.json()
     );
 

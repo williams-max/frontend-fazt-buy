@@ -10,6 +10,7 @@ import {
 import { useThemeHook } from "../GlobalComponents/ThemeProvider";
 import { useCart } from "react-use-cart";
 import { BsCartPlus } from "react-icons/bs";
+import { urlProduct,baseUrl } from "../Strings/apis";
 //import { Link } from "@reach/router";
 
 import { Link } from "react-router-dom";
@@ -44,7 +45,7 @@ const ProductCard = (props) => {
               component="img"
               /*height="140"*/
 
-              image={'https://backend-fast-buy-production.up.railway.app/'+image}
+              image={`${baseUrl}`+`/${image}`}
               alt="image"
             />
           </div>

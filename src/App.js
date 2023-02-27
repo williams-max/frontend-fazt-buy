@@ -14,6 +14,7 @@ import SignIn from "./Pages/SignIn";
 import Register from "./Pages/Register";
 import MyAccount from "./Pages/MyAccount";
 import AddProduct from "./components/AddProduct";
+import Administration from "./Pages/Administration";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
         <Route exact path="/addProduct" element={<AddProduct />} />
         <Route exact path="/product-details/:productId" element={<ProductDetails />} />
 
-        
+        <Route exact path="/administration" element={<Administration />} />
         <Route exact path="*" element={<MyAccount />} />
       </Routes>
     </BrowserRouter>
