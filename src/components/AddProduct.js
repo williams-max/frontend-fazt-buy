@@ -23,9 +23,10 @@ import { useCart } from "react-use-cart";
 import { BsCartPlus } from "react-icons/bs";
 //import { Link } from "@reach/router";
 
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { urlAddProductFile } from "../Strings/apis";
 const AddProduct = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   // let { image, price, title, id } = props.data;
 
   const { addItem } = useCart();
@@ -38,12 +39,12 @@ const AddProduct = () => {
   const [checkBelleza, setCheckBelleza] = useState(false);
   const [checkHogar, setCheckHogar] = useState(false);
 
-  const urlDev = "http://localhost:4000";
   const selectedHandler = (e) => {
     console.log("dddd ", e.target.files[0]);
     setFile(e.target.files[0]);
   };
 
+  /*
   const sendHandler = async () => {
     if (!file) {
       alert("you must upload file");
@@ -67,24 +68,11 @@ const AddProduct = () => {
         }
       );
     } catch (error) {}
-    /*
-    fetch(
-    `${urlDev}/api/v1/products/v2/addimg`,
-      {
-        method: "POST",
-        body: formdata,
-      }
-    )
-      .then((res) => res.text())
-      .then((res) => console.log(res))
-      .catch((err) => {
-        console.error(err);
-      });*/
 
     document.getElementById("fileinput").value = null;
 
     setFile(null);
-  };
+  };*/
 
   const [loading, setLoading] = useState(false);
   const [number, setNumber] = useState(null);
@@ -93,62 +81,59 @@ const AddProduct = () => {
     const form = event.currentTarget;
     event.preventDefault();
 
-    if(!checkBelleza && !checkHogar){
-      alert("seleccione una categoria")
+    if (!checkBelleza && !checkHogar) {
+      alert("seleccione una categoria");
       return;
     }
 
-    var category=""
-    if(checkBelleza && !checkHogar){
-      category="belleza"
+    var category = "";
+    if (checkBelleza && !checkHogar) {
+      category = "belleza";
     }
-    if(!checkBelleza && checkHogar){
-      category="hogar"
+    if (!checkBelleza && checkHogar) {
+      category = "hogar";
     }
-    
+
     const title = form.title.value;
     const price = form.price.value;
 
     if (title && price) {
-     // setLoading(true);
+      // setLoading(true);
       console.log("call api here");
       console.log(title, price);
-
 
       if (!file) {
         alert("you must upload file");
         return;
       }
-  
+
       const formdata = new FormData();
       formdata.append("image", file);
-      formdata.append("price",price);
-      formdata.append("title",title);
-      formdata.append("category",category);
-      
+      formdata.append("price", price);
+      formdata.append("title", title);
+      formdata.append("category", category);
+
       try {
         const res = await axios.post(
-          `${urlDev}/api/v1/products/v2/addimg`,
+          urlAddProductFile,
           formdata,
-          
+
           {
             headers: {
               "Content-Type": "multipart/form-data",
             },
           }
         );
-        navigate(-1)
+        navigate(-1);
       } catch (error) {
         console.log(error.response); // this is the main part. Use the response property from the error object
 
         return error.response;
       }
-    
-  
-      document.getElementById("fileinput").value = null;
-  
-      setFile(null);
 
+      document.getElementById("fileinput").value = null;
+
+      setFile(null);
     }
   };
 
@@ -173,7 +158,7 @@ const AddProduct = () => {
       <br />
       <br />
 
-     {/* <div className="col-2">
+      {/* <div className="col-2">
         <Button
           onClick={sendHandler}
           type="Button"
@@ -237,7 +222,7 @@ const AddProduct = () => {
             </Form.Group>
             <Button
               style={{ border: 0, backgroundColor: "red", width: "150px" }}
-              onClick={()=> navigate(-1)}
+              onClick={() => navigate(-1)}
             >
               Back
             </Button>

@@ -10,6 +10,4 @@ export const urlProduct = baseUrl + "/api/v1/products"; //PUT //GET //DELETE //P
 
 export const urlUser = baseUrl + "/api/v1/employees"; //PUT //GET //DELETE//POST
 //user
-export const registerUser = baseUrl + "";
-export const loginUser = baseUrl + "";
-export const logoutUser = baseUrl + "";
+export const urlAddProductFile = baseUrl + "/api/v1/products/v2/addimg";
